@@ -7,6 +7,6 @@ namespace Domain.Ports
         Task<IEnumerable<Movie>> GetAll();
         Task<Movie> Insert(Movie movie);
         Task<Movie> Update(Movie movie);
-        Task<Movie> Delete(Guid id);
+        Task Delete(Movie movie);
     }
 }

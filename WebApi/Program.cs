@@ -1,11 +1,17 @@
+using WebApi.Config;
+using WebApi.ExtensionsConfig;
+using WebApi.Middlewares;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add my services to the container
+builder.Services.AddWebApiExtensionsConfig();
 
 var app = builder.Build();
 
@@ -16,6 +22,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Inicializa os dados
+DataInitializer.InitializeData(app);
+
+app.UseMiddleware<GlobalErrorMiddlewares>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
