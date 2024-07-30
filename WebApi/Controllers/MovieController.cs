@@ -17,5 +17,13 @@ namespace WebApi.Controllers
             return Ok(movie);
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> PostMovie([FromBody] object a3)
+        {
+            var movie = await _movieService.GetAllMoviesAsync();
+            return Ok(movie);
+        }
+
     }
 }

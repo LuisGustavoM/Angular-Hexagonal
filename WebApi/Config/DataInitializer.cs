@@ -27,11 +27,7 @@ namespace WebApi.Config
                 Movie.Create("The Shawshank Redemption", new DateTime(1994, 9, 22)),
                 Movie.Create("The Godfather", new DateTime(1972, 3, 24)),
                 Movie.Create("The Dark Knight", new DateTime(2008, 7, 18)),
-                Movie.Create("Pulp Fiction", new DateTime(1994, 10, 14)),
-                Movie.Create("Forrest Gump", new DateTime(1994, 7, 6)),
-                Movie.Create("Inception", new DateTime(2010, 7, 16)),
-                Movie.Create("Fight Club", new DateTime(1999, 10, 15)),
-                Movie.Create("The Matrix", new DateTime(1999, 3, 31))
+                Movie.Create("Pulp Fiction", new DateTime(1994, 10, 14))
             ];
         }
     }

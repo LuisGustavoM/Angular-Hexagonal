@@ -27,8 +27,11 @@ DataInitializer.InitializeData(app);
 
 app.UseMiddleware<GlobalErrorMiddlewares>();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
+
+app.UseCors(option => option.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
 
 app.MapControllers();
 
