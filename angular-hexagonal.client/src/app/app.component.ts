@@ -1,37 +1,36 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './core/components/navbar/navbar.component';
+import { EnvService } from './core/services/env.service';
+import { FontAwesomeLibraryConfig } from './core/font-awesome-library';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [
+    RouterOutlet, 
+    CommonModule,
+    NavbarComponent,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.scss'] 
 })
-export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
-
-  constructor(private http: HttpClient) {}
+export class AppComponent {
+   
+  routerService: Router = inject(Router);
+  envService = inject(EnvService);
+  fontAwesomeLibraryConfig = inject(FontAwesomeLibraryConfig);
 
   ngOnInit() {
-    this.getForecasts();
+    this.envService.setUrlApi();
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  public isHomePage(): boolean {
+    return window.location.pathname === '/';
   }
 
-  title = 'angular-hexagonal.client';
+  public navigateToHome(): void {
+    this.routerService.navigate(['']);
+  }
 }

@@ -1,0 +1,52 @@
+<div class="modal-overlay">
+  <div class="modal-container container mx-auto pt-10">
+
+    <div class="text-right pt-5 pb-5">
+      <app-btn 
+        [icon]="'fa-regular fa-square-plus'"
+        [label]="'New Movie'"
+        [type]="1"
+        [size]="'md'"
+        (click)="goMaintenance(null, false)"
+      >
+      </app-btn>
+    </div>
+
+    <div class="grid">
+      <p-table [value]="movieList" [tableStyle]="{ 'min-width': '60rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <!-- <th>Id</th> -->
+            <th>Name</th>
+            <th class="text-center">Date Publication</th>
+            <th class="text-center">Date Registration</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-movie>
+          <tr>
+            <!-- <td>{{ movie.id }}</td> -->
+            <td>{{ movie.name }}</td>
+            <td class="text-center">{{ movie.datePublication | date: "dd/MM/yyyy" }}</td>
+            <td class="text-center">{{ movie.dateRegistration | date: "dd/MM/yyyy" }}</td>
+            <td class="text-right text-nowrap">
+              <button class="btn is-primary btn-sm text-primary"
+                  (click)="goMaintenance(movie)">
+                  <i class="fa fa-eye" title="Visualizar detalhes" aria-hidden="true"></i>
+              </button>
+              <button class="btn is-primary btn-sm text-primary"
+                  (click)="goMaintenance(movie, true)">
+                  <i class="fa fa-eye" title="Visualizar detalhes" aria-hidden="true"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between">
+            In total there are {{ movieList ? movieList.length : 0 }} movies.
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
