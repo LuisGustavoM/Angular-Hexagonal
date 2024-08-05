@@ -20,6 +20,12 @@ namespace Infra.Data.Repositories
             return await _context.Movie.ToListAsync();
         }
 
+        public async Task<Movie?> GetById(Guid id)
+        {
+            var movie = await _context.Movie.FirstOrDefaultAsync(c => c.Id == id);
+            return movie;
+        }
+
         public async Task<Movie> Insert(Movie movie)
         {
             await _context.AddAsync(movie);

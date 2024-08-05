@@ -6,7 +6,7 @@ namespace Infra.Email.Send
     {
         public void SendEmail(string from, string to, string subject, string body)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Email enviado");
         }
     }
 }

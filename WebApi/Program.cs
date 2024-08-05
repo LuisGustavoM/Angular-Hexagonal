@@ -8,24 +8,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// Add my services to the container
+builder.Services.ConfigureSwagger();
+builder.Services.ConfigureFluentValidator();
 builder.Services.AddWebApiExtensionsConfig();
 
 var app = builder.Build();
 
+// registra middleware global
+app.UseMiddleware<GlobalErrorMiddleware>();
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+if (app.Environment.IsDevelopment()) app.UseSwaggerConfiguration();
 
 // Inicializa os dados
 DataInitializer.InitializeData(app);
 
-app.UseMiddleware<GlobalErrorMiddlewares>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 

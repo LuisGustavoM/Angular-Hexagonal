@@ -3,9 +3,10 @@ using System.Text.Json;
 
 namespace WebApi.Middlewares
 {
-    public class GlobalErrorMiddlewares(RequestDelegate next)
+    public class GlobalErrorMiddleware(RequestDelegate next, IWebHostEnvironment env)
     {
         private readonly RequestDelegate _next = next;
+        private readonly IWebHostEnvironment _env = env;
 
         public async Task InvokeAsync(HttpContext context)
         {
@@ -19,25 +20,28 @@ namespace WebApi.Middlewares
             }
         }
 
-        public static async Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             HttpStatusCode statusCode;
             string message;
-            string stackTrace = string.Empty;
+            string stackTrace = _env.IsDevelopment() ? ex.StackTrace : null;
 
-            var exceptionType = ex.GetType();
-
-            if (exceptionType == typeof(ArgumentNullException) || exceptionType == typeof(ArgumentException))
+            if (ex is KeyNotFoundException)
+            {
+                statusCode = HttpStatusCode.NotFound;
+                message = ex.Message ?? "The requested resource was not found.";
+            }
+            else if (ex is ArgumentNullException || ex is ArgumentException)
             {
                 statusCode = HttpStatusCode.BadRequest;
                 message = "Invalid argument provided.";
             }
-            else if (exceptionType == typeof(InvalidOperationException))
+            else if (ex is InvalidOperationException)
             {
                 statusCode = HttpStatusCode.Conflict;
                 message = "Operation is not valid.";
             }
-            else if (exceptionType == typeof(UnauthorizedAccessException))
+            else if (ex is UnauthorizedAccessException)
             {
                 statusCode = HttpStatusCode.Unauthorized;
                 message = "Access is denied.";
@@ -46,7 +50,6 @@ namespace WebApi.Middlewares
             {
                 statusCode = HttpStatusCode.InternalServerError;
                 message = "An unexpected error occurred.";
-                stackTrace = ex.StackTrace;
             }
 
             var response = new

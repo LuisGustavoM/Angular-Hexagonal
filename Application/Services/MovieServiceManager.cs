@@ -11,8 +11,8 @@ namespace Application.Services
 
         public async Task<IEnumerable<Movie>> GetAllMoviesAsync()
         {
-            var users = await _movieRepository.GetAll();
-            return users;
+            var movies = await _movieRepository.GetAll();
+            return movies;
         }
 
         public async Task<Movie> UpdateMovieAsync(Movie movie)
@@ -22,9 +22,11 @@ namespace Application.Services
             return userUpdated;
         }
 
-        public async Task DeleteMovieAsync(Guid id)
+        public async Task DeleteMovieAsync(Movie movie)
         {
-            var movie = new Movie();
+            if (movie == null)
+                throw new KeyNotFoundException(); // Lançar exceção quando o filme não for encontrado
+            
             await _movieRepository.Delete(movie);
             _emailAdapter.SendEmail("teste@teste.com", "teste@email.com", "Movie was deleted with sucess...", "Deleted movie");
         }
@@ -32,6 +34,12 @@ namespace Application.Services
         {
             await _movieRepository.Insert(movie);
             _emailAdapter.SendEmail("teste@teste.com", "teste@email.com", "Movie was included with sucess...", "Added movie");
+            return movie;
+        }
+
+        public async Task<Movie> GetById(Guid id)
+        {
+            var movie = await _movieRepository.GetById(id) ?? throw new KeyNotFoundException("Movie not found.");  // Lançar exceção quando o filme não for encontrado
             return movie;
         }
     }
