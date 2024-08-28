@@ -1,3 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
+
+.modal-content {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+}
+.modal {
+  display: block;
+}
+
+.modal-sm .modal-dialog {
+  max-width: 400px;
+}
+.modal-md .modal-dialog {
+  max-width: 600px;
+}
+.modal-lg .modal-dialog {
+  max-width: 1000px;
+}
+
+.modal-xl .modal-dialog {
+  max-width: 75%;
+}

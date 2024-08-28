@@ -11,8 +11,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 builder.Services.ConfigureFluentValidator();
 builder.Services.AddWebApiExtensionsConfig();
+builder.Services.ConfigureCors();
 
 var app = builder.Build();
+
+app.UseCorsConfig();
 
 // registra middleware global
 app.UseMiddleware<GlobalErrorMiddleware>();
@@ -25,10 +28,6 @@ DataInitializer.InitializeData(app);
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-
-app.UseCors(option => option.AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader());
 
 app.MapControllers();
 

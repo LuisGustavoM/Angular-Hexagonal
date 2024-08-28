@@ -6,10 +6,12 @@ import { RatingModule } from 'primeng/rating';
 import { TagModule } from 'primeng/tag';
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie';
-import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { MovieMaintenanceComponent } from '../movie-maintenance/movie-maintenance.component';
 import { BtnComponent } from '../../../../shared/btn/btn.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BtnIconComponent } from '../../../../shared/btn-icon/btn-icon.component';
+import { MovieDetailComponent } from '../movie-detail/movie-detail.component';
 
 @Component({
   selector: 'app-movie-list',
@@ -24,7 +26,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     TagModule,
     DynamicDialogModule,
     BtnComponent,
-    FontAwesomeModule 
+    FontAwesomeModule,
+    BtnIconComponent,
   ],
   providers: [
     MovieService,
@@ -35,7 +38,6 @@ export class MovieListComponent implements OnInit {
   
   private dialogService = inject(DialogService);
   private movieService = inject(MovieService);
-  private ref: DynamicDialogRef | undefined;
 
   movieList: Movie[]= [];
   constructor() { }
@@ -44,7 +46,7 @@ export class MovieListComponent implements OnInit {
     this.getMoviesList();
   }
   
-  private getMoviesList(){
+  public getMoviesList(){
     this.movieService.getMovieList().subscribe(movieList => {
       this.movieList = movieList;
     });
@@ -52,12 +54,23 @@ export class MovieListComponent implements OnInit {
 
   public goMaintenance(movie: Movie | null, edit = false){
     const title = movie == null ? 'Add new item' : 'Edit item';
-    this.ref = this.dialogService.open(MovieMaintenanceComponent, 
+    this.dialogService.open(MovieMaintenanceComponent, 
       { 
         header: title, 
         data: this.defineDataDialog(movie, edit),
         width: '40%',
-        height: '60%',
+        height: 'auto',
+        closable: false
+      });
+  }
+
+  public goDetail(movie: Movie){
+    this.dialogService.open(MovieDetailComponent,
+      { 
+        header: 'Detail movie', 
+        data: this.defineDataDialog(movie),
+        width: '40%',
+        height: 'auto',
         closable: false
       });
   }
@@ -68,5 +81,4 @@ export class MovieListComponent implements OnInit {
       edit: edit
     } 
   }
-
 }

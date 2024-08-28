@@ -19,5 +19,17 @@ export class MovieService {
    public getMovieList(): Observable<Movie[]> {
     return this.http.get<Movie[]>(this.urlApi);
    }
+
+   public saveMovie(movie: Movie): Observable<Movie> {
+    return this.http.post<Movie>(this.urlApi, movie);
+   }
+
+   public deleteMovie(id: number): Observable<Movie> {
+    return this.http.delete<Movie>(`${this.urlApi}/${id}`);
+   }
+
+   public editMovie(movie: Movie): Observable<Movie> {
+    return this.http.patch<Movie>(`${this.urlApi}`, movie);
+   }
 }
 

@@ -1,0 +1,25 @@
+@if (movie != null) {
+<div class="modal items-center justify-center bg-white rounded-lg shadow-lg p-4" tabindex="-1" role="dialog">
+  <div class="input-container">
+    <label for="name" class="font-medium text-gray-700">Name</label>
+    <input disabled maxlength="150" id="name" type="text" [(ngModel)]="movie.name"
+      class="border border-gray-300 rounded-lg p-2 w-full" />
+  </div>
+
+  <div class="input-container">
+    <label for="datePublication" class="font-medium text-gray-700">Date Publication</label>
+    <input disabled id="datePublication" type="text" [value]="movie.datePublication | date: 'dd/MM/yyyy'"
+      class="border border-gray-300 rounded-lg p-2 w-full" readonly />
+  </div>
+
+  <div class="input-container">
+    <label for="dateRegistration" class="font-medium text-gray-700">Date Registration</label>
+    <input disabled id="dateRegistration" type="text" [value]="movie.dateRegistration | date: 'dd/MM/yyyy'"
+      class="border border-gray-300 rounded-lg p-2 w-full" readonly />
+  </div>
+</div>
+
+<div class="modal-footer flex justify-end mt-4">
+  <btn class="mr-2" [type]="3" [size]="'md'" [label]="'Close'" (click)="closeModal()"></btn>
+</div>
+}

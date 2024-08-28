@@ -1,7 +1,10 @@
-<button [ngClass]="{
+<button 
+  [disabled]="disabled"
+  [ngClass]="{
   'bg-blue-500 hover:bg-blue-700': type === 1,
   'bg-red-500 hover:bg-red-700': type === 2,
   'bg-gray-500 hover:bg-gray-700': type === 3,
+  'bg-green-500 hover:bg-green-700': type === 4,
   'text-sm py-1 px-2': size === 'sm',
   'text-md py-2 px-4': size === 'md',
   'text-lg py-3 px-6': size === 'lg',
